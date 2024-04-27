@@ -59,30 +59,6 @@ public class Checker {
     }
 
     /**
-     * method that moves checker if coordinates given constitutes a valid move. otherwise, it prints an error message.
-     *
-     * @param newX - x-axis position of destination
-     * @param newY - y-axis position of destination
-     **/
-    public void move(int newX, int newY) {
-        if (x == 0 && newX == x + 1 && newY == y + 1) { //checks if checker is on the left border of checkerboard
-            x = newX;
-            y = newY;
-            System.out.println("Moved to " + newX + ", " + newY);
-        } else if (x == 7 && newX == x - 1 && newY == y + 1) { //checks if checker is on the right border of checkerboard
-            x = newX;
-            y = newY;
-            System.out.println("Moved to " + newX + ", " + newY);
-        } else if ((newX == x - 1 || newX == x + 1) && newY == y + 1) { //checks if move is valid for any other checker location
-            x = newX;
-            y = newY;
-            System.out.println("Moved to " + newX + ", " + newY);
-        } else {
-            System.out.println("Invalid move. Try again with a different set of coordinates.");
-        }
-    }
-
-    /**
      * setter that makes checker a king by setting isKing boolean as true
      **/
     public void setKing(boolean isKing) {
