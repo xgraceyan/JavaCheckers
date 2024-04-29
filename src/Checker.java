@@ -58,10 +58,22 @@ public class Checker {
         return color;
     }
 
+
     /**
      * setter that makes checker a king by setting isKing boolean as true
      **/
     public void setKing(boolean isKing) {
         this.isKing = isKing;
+    }
+
+    /**
+     * Moves the checker to newX, newY
+     *
+     * @param newX - x coordinate of new location
+     * @param newY - y coordinate of new location
+     **/
+    public void move(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
     }
 }

@@ -17,15 +17,25 @@ public class CheckerBoard {
         int count = 0; // total number of checkers added
         // add black (player-side) checkers
         for (int i = 0; i <= 23; i += 2) {
-            checkers.add(count, new Checker("black", i % 8, i / 8));
+            int x = i % 8;
+            int y = i / 8;
+            if (y % 2 == 1) x++;
+            checkers.add(count, new Checker("black", x, y));
             count++;
         }
 
         // add white checkers
-        for (int j = 1; j <= 23; j += 2) {
-            checkers.add(count, new Checker("white", j % 8, j / 8));
+        for (int j = 40; j < 64; j += 2) {
+            int x = j % 8;
+            int y = j / 8;
+            if (y % 2 == 1) x++;
+            checkers.add(count, new Checker("white", x, y));
             count++;
         }
+    }
+
+    public ArrayList<Checker> getCheckerList() {
+        return checkers;
     }
 
     /**
@@ -80,11 +90,10 @@ public class CheckerBoard {
             }
             // jump move
             if (newY == y + 2) {
-                Checker existing;
+                Checker existing = null;
                 if (newX == x + 2) {
                     existing = getChecker(newX - 1, newY - 1);
-                }
-                else if (newX == x - 2) {
+                } else if (newX == x - 2) {
                     existing = getChecker(newX + 1, newY - 1);
                 }
                 if (existing != null) {
@@ -106,11 +115,10 @@ public class CheckerBoard {
             }
             // jump move
             if (newY == y + 2) {
-                Checker existing;
+                Checker existing = null;
                 if (newX == x + 2) {
                     existing = getChecker(newX - 1, newY - 1);
-                }
-                else if (newX == x - 2) {
+                } else if (newX == x - 2) {
                     existing = getChecker(newX + 1, newY - 1);
                 }
                 if (existing != null) {
@@ -121,13 +129,11 @@ public class CheckerBoard {
                     if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
                     return true;
                 }
-            }
-            else if (newY == y - 2) {
-                Checker existing;
+            } else if (newY == y - 2) {
+                Checker existing = null;
                 if (newX == x + 2) {
                     existing = getChecker(newX - 1, newY + 1);
-                }
-                else if (newX == x - 2) {
+                } else if (newX == x - 2) {
                     existing = getChecker(newX + 1, newY + 1);
                 }
                 if (existing != null) {
