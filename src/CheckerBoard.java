@@ -15,21 +15,24 @@ public class CheckerBoard {
      **/
     public CheckerBoard() {
         int count = 0; // total number of checkers added
-        // add black (player-side) checkers
-        for (int i = 0; i <= 23; i += 2) {
+        // add white checkers
+        for (int i = 1; i <= 23; i += 2) {
             int x = i % 8;
             int y = i / 8;
-            if (y % 2 == 1) x++;
-            checkers.add(count, new Checker("black", x, y));
+//            if (y % 2 == 1) x++;
+            checkers.add(count, new Checker("white", x, y));
+            if (x == 7) i--;
+            if (x == 6) i++;
             count++;
         }
 
-        // add white checkers
+        // add black (player side)
         for (int j = 40; j < 64; j += 2) {
             int x = j % 8;
             int y = j / 8;
-            if (y % 2 == 1) x++;
-            checkers.add(count, new Checker("white", x, y));
+            checkers.add(count, new Checker("black", x, y));
+            if (x == 7) j--;
+            if (x == 6) j++;
             count++;
         }
     }

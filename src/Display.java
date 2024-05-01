@@ -4,38 +4,42 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Display {
-    public static void main(String[] args) {
-        CheckerBoard cb = new CheckerBoard();
+    private CheckerBoard cb = new CheckerBoard();
+    JFrame f = new JFrame();
 
-        JFrame f = new JFrame();
+    public Display() {
         f.setLayout(new GridLayout(8, 8));
         JButton[] buttonList = new JButton[64];
 
 
         for (int i = 0; i < 64; i++) {
-            buttonList[i] = new JButton();
 
             int x = i % 8;
             int y = i / 8;
 
+            Color light_brown = new Color(241, 212, 154);
+            Color dark_brown = new Color(135, 99, 41);
 
-            if (i / 8 % 2 == 1) {
-                if (i % 2 == 0) buttonList[i].setBackground(Color.white);
-                else buttonList[i].setBackground(Color.BLACK);
-            } else {
-                if (i % 2 == 1) buttonList[i].setBackground(Color.white);
-                else buttonList[i].setBackground(Color.BLACK);
-            }
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-
-            for (Checker c : cb.getCheckerList()) {
-                if (c.getX() == x && c.getY() == y) {
-                    if (c.getColor().equals("white"))
-                        buttonList[i].setBackground(Color.BLUE);
-                    else
-                        buttonList[i].setBackground(Color.RED);
+            if (cb.isEmpty(x, y)) {
+                buttonList[i] = new JButton();
+                if (i / 8 % 2 == 1) {
+                    if (i % 2 == 0) buttonList[i].setBackground(dark_brown);
+                    else buttonList[i].setBackground(light_brown);
+                } else {
+                    if (i % 2 == 1) buttonList[i].setBackground(dark_brown);
+                    else buttonList[i].setBackground(light_brown);
                 }
+            } else {
+                Checker c = cb.getChecker(x, y);
+                Icon blackIcon = new ImageIcon("resources/black_checker.png");
+                Icon whiteIcon = new ImageIcon("resources/white_checker.png");
+                System.out.println(blackIcon.getIconHeight());
+                if (c.getColor().equals("white"))
+                    buttonList[i] = new JButton(whiteIcon);
+                else
+                    buttonList[i] = new JButton(blackIcon);
             }
+
 
             buttonList[i].setOpaque(true);
             buttonList[i].setBorderPainted(false);
@@ -43,8 +47,15 @@ public class Display {
         }
 
 
-        f.setSize(700, 700);
-        f.setVisible(true);
+        f.setSize(800, 800);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void showBoard() {
+        f.setVisible(true);
+    }
+
+    public void handleMove(Checker c, int newX, int newY) {
+        // TODO implement this later
     }
 }
