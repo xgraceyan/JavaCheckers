@@ -1,3 +1,4 @@
+package Checkers;
 /**
  * Player class that will be extended for Human and Computer classes
  * Author: Leka Ekambaram
@@ -6,8 +7,6 @@ public class Player {
 
     private String name;
     private boolean isOnTurn;
-    private CheckerBoard checkerBoard = new CheckerBoard();
-
 
     /**
      * Player constructor
@@ -19,6 +18,14 @@ public class Player {
         name = playerName; //player's name inputted (if computer, name will be "computer")
         isOnTurn = turn;
     }
+    
+    /**
+     * Method to get name 
+     * @return name 
+     */
+    public String getName() {
+    	return name; 
+    }
 
     /**
      * Method for checking if player is human
@@ -28,6 +35,15 @@ public class Player {
     public boolean isHuman() {
         return !name.equals("computer");
     }
+    
+    /**
+     * Method that returns whether it is the player's turn 
+     * 
+     * @return true if it is the player's turn and false otherwise 
+     */
+    public boolean getTurn() {
+    	return isOnTurn;
+    }
 
     /**
      * moves checker to designated index. If move isn't valid, it'll still be the player's turn
@@ -36,8 +52,8 @@ public class Player {
      * @param newX
      * @param newY
      */
-    public void regularMove(Checker c, int newX, int newY) {
-        isOnTurn = !checkerBoard.moveChecker(c, newX, newY); //turn ends if move is made
+    public void regularMove(CheckerBoard board, Checker c, int newX, int newY) {
+        isOnTurn = !board.moveChecker(c, newX, newY); //turn ends if move is made
     }
 
     /**
@@ -46,7 +62,7 @@ public class Player {
      * @param c - Checker object to move
      * @param o - Checker object to be captured
      */
-    public void attackingMove(Checker c, Checker o) {
+    public void attackingMove(CheckerBoard board, Checker c, Checker o) {
         int otherX = o.getX();
         int otherY = o.getY();
         int moveX = 0;
@@ -57,15 +73,15 @@ public class Player {
                 moveX = otherX - 1;
             }
             if (moveX != 0) {
-                checkerBoard.moveChecker(c, moveX, otherY + 1);
+                board.moveChecker(c, moveX, otherY + 1);
             }
 
         }
         //if a double jump is possible
-        if (checkerBoard.getChecker(c.getX() + 1, c.getY() + 1) != null) {
-            attackingMove(c, checkerBoard.getChecker(c.getX() + 1, c.getY() + 1));
-        } else if (checkerBoard.getChecker(c.getX() - 1, c.getY() + 1) != null) {
-            attackingMove(c, checkerBoard.getChecker(c.getX() - 1, c.getY() + 1));
+        if (board.getChecker(c.getX() + 1, c.getY() + 1) != null) {
+            attackingMove(board, c, board.getChecker(c.getX() + 1, c.getY() + 1));
+        } else if (board.getChecker(c.getX() - 1, c.getY() + 1) != null) {
+            attackingMove(board, c, board.getChecker(c.getX() - 1, c.getY() + 1));
         }
     }
 }
