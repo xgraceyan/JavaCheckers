@@ -34,11 +34,9 @@ public class Human extends Player {
 		int xMove = scan.nextInt(); 
 		System.out.print("Enter y-coordinate: ");
 		int yMove = scan.nextInt(); 
-		
-		// checks to see if the checker can be moved to the new location, loops until it can. not sure if regularMove is working as is, must double check with group regarding indices on chessboard 
-		regularMove(board, toMove, xMove, yMove); 
+		// checks to see if the checker can be moved to the new location, loops until it can.
+		regularMove(board, toMove, xMove, yMove);
 		while (getTurn()) {
-			System.out.println(getTurn());
 			System.out.print("\nIf you would like to change the checker you are moving, enter -1. \nOtherwise, please enter valid coordinates. Enter x-coordinate: "); 
 			xMove = scan.nextInt(); 
 			if (xMove == -1) {
@@ -49,17 +47,17 @@ public class Human extends Player {
 			System.out.print("Enter y-coordinate: ");
 			yMove = scan.nextInt(); 
 			regularMove(board, toMove, xMove, yMove);
-		}
-		System.out.print("Successfully moved to: {" + xMove + ", " + yMove + "} "); 
+		} 
+		System.out.print("Successfully moved to: {" + xMove + ", " + yMove + "} ");
 	}
 	
 	/**
-	 * method that initializes the player's move by asking them to pick a checker to move 
+	 * private method that initializes the player's move by asking them to pick a checker to move 
 	 * 
 	 * @param board - CheckerBoard object reference 
 	 * @return - Checker that will be moved 
 	 */
-	public Checker startChecker(CheckerBoard board) {
+	private Checker startChecker(CheckerBoard board) {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("\nWhich new piece would you like to move? Enter x-coordinate: ");
 		int x = scan.nextInt(); 

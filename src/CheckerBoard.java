@@ -1,3 +1,5 @@
+package Checkers; 
+
 import java.util.ArrayList;
 
 /**
@@ -82,12 +84,11 @@ public class CheckerBoard {
         int y = c.getY();
 
         if (!isEmpty(newX, newY)) return false;
-        if (newX > 7 || newY > 7) return false;
+        if ((newX > 7 || newX < 0) || (newY > 7 || newY < 0)) return false;
 
         if (!c.isKing()) {
             // regular move
-            if ((newX == x + 1 || newX == x - 1) && newY == y + 1) {
-                c.move(newX, newY);
+            if ((newX == x + 1 || newX == x - 1) && (newY == y - 1 || newY == y + 1)) { 
                 if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
                 return true;
             }
