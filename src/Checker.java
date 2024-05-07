@@ -1,5 +1,5 @@
 /**
- * class to code Checker objects for CheckerBoard class
+ * Class to code Checker objects for CheckerBoard class
  * Author: Leka Ekambaram
  **/
 public class Checker {
