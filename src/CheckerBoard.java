@@ -1,5 +1,4 @@
-package Checkers; 
-
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 
 /**
@@ -82,32 +81,59 @@ public class CheckerBoard {
     public boolean moveChecker(Checker c, int newX, int newY) {
         int x = c.getX();
         int y = c.getY();
+        if (!c.equals(getChecker(x, y))) {
+            System.out.println("same");
+            return false;
+        }
+        ;
 
-        if (!isEmpty(newX, newY)) return false;
+        if (!isEmpty(newX, newY)) {
+            System.out.println("exists");
+            return false;
+        }
+        ;
         if ((newX > 7 || newX < 0) || (newY > 7 || newY < 0)) return false;
 
         if (!c.isKing()) {
             // regular move
-            if ((newX == x + 1 || newX == x - 1) && (newY == y - 1 || newY == y + 1)) { 
+            if (c.getColor().equals("black") && newY > y) return false;
+            if (c.getColor().equals("white") && newY < y) return false;
+
+            if ((newX == x + 1 || newX == x - 1) && (newY == y - 1 || newY == y + 1)) {
+                c.move(newX, newY);
                 if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
                 return true;
             }
             // jump move
-            if (newY == y + 2) {
+            if ((newY == y + 2 || newY == y - 2) && (newX == x + 2 || newX == x - 2)) {
+                System.out.println("y");
                 Checker existing = null;
-                if (newX == x + 2) {
-                    existing = getChecker(newX - 1, newY - 1);
-                } else if (newX == x - 2) {
-                    existing = getChecker(newX + 1, newY - 1);
+                if (newY == y + 2) {
+                    if (newX == x + 2) {
+                        existing = getChecker(x + 1, y + 1);
+                    } else if (newX == x - 2) {
+                        existing = getChecker(x - 1, y + 1);
+                    }
+                } else {
+                    System.out.println("y-2");
+                    if (newX == x + 2) {
+                        existing = getChecker(x + 1, y - 1);
+                    } else if (newX == x - 2) {
+                        existing = getChecker(x - 1, y - 1);
+                    }
                 }
                 if (existing != null) {
-                    if (existing.getColor().equals("white")) blackScore++;
-                    else whiteScore++;
+                    if (c.getColor().equals("black") && existing.getColor().equals("white")) blackScore++;
+                    else if (c.getColor().equals("white") && existing.getColor().equals("black")) whiteScore++;
+                    else {
+                        System.out.println("fjdsioa");
+                        return false;
+                    }
                     checkers.remove(existing);
                     c.move(newX, newY);
                     if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
                     return true;
-                }
+                } else return false;
             }
 
         } else {
@@ -118,36 +144,34 @@ public class CheckerBoard {
                 return true;
             }
             // jump move
-            if (newY == y + 2) {
+            if ((newY == y + 2 || newY == y - 2) && (newX == x + 2 || newX == x - 2)) {
+                System.out.println("y");
                 Checker existing = null;
-                if (newX == x + 2) {
-                    existing = getChecker(newX - 1, newY - 1);
-                } else if (newX == x - 2) {
-                    existing = getChecker(newX + 1, newY - 1);
+                if (newY == y + 2) {
+                    if (newX == x + 2) {
+                        existing = getChecker(x + 1, y + 1);
+                    } else if (newX == x - 2) {
+                        existing = getChecker(x - 1, y + 1);
+                    }
+                } else {
+                    System.out.println("y-2");
+                    if (newX == x + 2) {
+                        existing = getChecker(x + 1, y - 1);
+                    } else if (newX == x - 2) {
+                        existing = getChecker(x - 1, y - 1);
+                    }
                 }
                 if (existing != null) {
-                    if (existing.getColor().equals("white")) blackScore++;
-                    else whiteScore++;
+                    if (c.getColor().equals("black") && existing.getColor().equals("white")) blackScore++;
+                    else if (c.getColor().equals("white") && existing.getColor().equals("black")) whiteScore++;
+                    else {
+                        System.out.println("fjdsioa");
+                        return false;
+                    }
                     checkers.remove(existing);
                     c.move(newX, newY);
-                    if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
                     return true;
-                }
-            } else if (newY == y - 2) {
-                Checker existing = null;
-                if (newX == x + 2) {
-                    existing = getChecker(newX - 1, newY + 1);
-                } else if (newX == x - 2) {
-                    existing = getChecker(newX + 1, newY + 1);
-                }
-                if (existing != null) {
-                    if (existing.getColor().equals("white")) blackScore++;
-                    else whiteScore++;
-                    checkers.remove(existing);
-                    c.move(newX, newY);
-                    if (newY == 0 || newY == 7) c.setKing(true); // make end piece king
-                    return true;
-                }
+                } else return false;
             }
         }
 

@@ -15,6 +15,7 @@ public class Display implements ActionListener {
 
     public Display() {
         f.setLayout(new GridLayout(8, 8));
+        String identity;
 
         for (int i = 0; i < 64; i++) {
 
@@ -25,6 +26,7 @@ public class Display implements ActionListener {
             Color dark_brown = new Color(135, 99, 41);
 
             if (cb.isEmpty(x, y)) {
+                identity = "tile";
                 buttonList[x][y] = new JButton();
                 if (i / 8 % 2 == 1) {
                     if (i % 2 == 0) buttonList[x][y].setBackground(dark_brown);
@@ -34,6 +36,7 @@ public class Display implements ActionListener {
                     else buttonList[x][y].setBackground(light_brown);
                 }
             } else {
+                identity = "checker";
                 Checker c = cb.getChecker(x, y);
                 Icon blackIcon = new ImageIcon("resources/black_checker.png");
                 Icon whiteIcon = new ImageIcon("resources/white_checker.png");
@@ -44,6 +47,7 @@ public class Display implements ActionListener {
                     buttonList[x][y] = new JButton(blackIcon);
                 checkerButtons.add(buttonList[x][y]);
             }
+
 
             buttonList[x][y].addActionListener(this);
             buttonList[x][y].setOpaque(true);
@@ -62,17 +66,43 @@ public class Display implements ActionListener {
     }
 
     public void handleMove(int newX, int newY) {
+        int oldX = selected.getX();
+        int oldY = selected.getY();
+        boolean valid = cb.moveChecker(selected, newX, newY);
         // TODO implement this later
-        JButton checkerButton = buttonList[selected.getX()][selected.getY()];
-        JButton newButton = buttonList[newX][newY];
-        System.out.println(checkerButton.getIcon());
-        checkerButton.setBackground(newButton.getBackground());
-        newButton.setIcon(checkerButton.getIcon());
-        checkerButton.setIcon(null);
-        buttonList[selected.getX()][selected.getY()] = newButton;
-        buttonList[newX][newY] = checkerButton;
-        cb.moveChecker(selected, newX, newY);
-        selected = null;
+        if (valid) {
+            JButton checkerButton = buttonList[oldX][oldY];
+            JButton newButton = buttonList[newX][newY];
+
+            if ((newY == oldY + 2 || newY == oldY - 2) && (newX == oldX + 2 || newX == oldX - 2)) {
+                // capture move
+                JButton capturedBtn = null;
+                if (newY == oldY + 2) {
+                    if (newX == oldX + 2) {
+                        capturedBtn = buttonList[oldX + 1][oldY + 1];
+                    } else if (newX == oldX - 2) {
+                        capturedBtn = buttonList[oldX - 1][oldY + 1];
+                    }
+                } else if (newY == oldY - 2) {
+                    if (newX == oldX + 2) {
+                        capturedBtn = buttonList[oldX + 1][oldY - 1];
+                    } else if (newX == oldX - 2) {
+                        capturedBtn = buttonList[oldX - 1][oldY - 1];
+                    }
+                }
+
+                capturedBtn.setIcon(null);
+                capturedBtn.setBackground(newButton.getBackground());
+                checkerButtons.remove(capturedBtn);
+            }
+            checkerButtons.remove(checkerButton);
+            checkerButtons.add(newButton);
+            checkerButton.setBackground(newButton.getBackground());
+            newButton.setIcon(checkerButton.getIcon());
+            checkerButton.setIcon(null);
+
+
+        }
     }
 
     @Override
@@ -82,18 +112,25 @@ public class Display implements ActionListener {
             int x = button.getName().charAt(0);
             int y = button.getName().charAt(2);
             handleMove(x, y);
+
+            selected = null;
             return;
         }
 
+        JButton srcButton = (JButton) e.getSource();
+        int srcX = srcButton.getName().charAt(0);
+        int srcY = srcButton.getName().charAt(2);
+
         for (JButton checkerButton : checkerButtons) {
-            if (checkerButton == e.getSource()) {
+            int cbX = checkerButton.getName().charAt(0);
+            int cbY = checkerButton.getName().charAt(2);
+            if (cbX == srcX && cbY == srcY) {
                 // select a checker
-                int x = checkerButton.getName().charAt(0);
-                int y = checkerButton.getName().charAt(2);
-                selected = cb.getChecker(x, y);
+                selected = cb.getChecker(cbX, cbY);
                 System.out.println(selected.getColor());
                 return;
             }
         }
+
     }
 }
