@@ -57,7 +57,7 @@ public class Human extends Player {
 	 * @param board - CheckerBoard object reference 
 	 * @return - Checker that will be moved 
 	 */
-	private Checker startChecker(CheckerBoard board) {
+	public Checker startChecker(CheckerBoard board) {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("\nWhich new piece would you like to move? Enter x-coordinate: ");
 		int x = scan.nextInt(); 
