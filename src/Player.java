@@ -45,44 +45,4 @@ public class Player {
     	return isOnTurn;
     }
 
-    /**
-     * moves checker to designated index. If move isn't valid, it'll still be the player's turn
-     *
-     * @param c
-     * @param newX
-     * @param newY
-     */
-    public void regularMove(CheckerBoard board, Checker c, int newX, int newY) {
-        isOnTurn = !board.moveChecker(c, newX, newY); //turn ends if move is made
-    }
-
-    /**
-     * moves checker and captures other checker. If a double jump is possible, it will perform it.
-     *
-     * @param c - Checker object to move
-     * @param o - Checker object to be captured
-     */
-    public void attackingMove(CheckerBoard board, Checker c, Checker o) {
-        int otherX = o.getX();
-        int otherY = o.getY();
-        int moveX = 0;
-        if (otherY == c.getY() + 1) {//sets index based on o's x-index
-            if (otherX == c.getX() + 1) {
-                moveX = otherX + 1;
-            } else if (otherX == c.getX() - 1) {
-                moveX = otherX - 1;
-            }
-            if (moveX != 0) {
-                board.moveChecker(c, moveX, otherY + 1);
-            }
-
-        }
-        //if a double jump is possible
-        if (board.getChecker(c.getX() + 1, c.getY() + 1) != null) {
-            attackingMove(board, c, board.getChecker(c.getX() + 1, c.getY() + 1));
-        } else if (board.getChecker(c.getX() - 1, c.getY() + 1) != null) {
-            attackingMove(board, c, board.getChecker(c.getX() - 1, c.getY() + 1));
-        }
-    }
-
 }
