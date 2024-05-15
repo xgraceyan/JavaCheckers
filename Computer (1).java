@@ -2,11 +2,12 @@ import java.util.Random;
 /**
  * Computer class to play checkers based on randomly generated valid moves. The Computer class extends the Player class.
  * @author: Sophia Zhang
- **/
+ */
 
 public class Computer extends Player {
   private Random rand;
   private final int BOARD_SIZE;
+  private Display d;
   
   /**
    * Constructor that sets Computer class 
@@ -17,6 +18,7 @@ public class Computer extends Player {
     super("Computer", turn);
     rand = new Random();
     BOARD_SIZE = 8;
+    d = new Display();
   }
 
   /**
@@ -25,18 +27,24 @@ public class Computer extends Player {
    * @param board -- CheckerBoard 
    */
   public void makeMove(CheckerBoard board){
-    //I saw startChecker in Yansy's Human class but didn't find it elsewhere... just double checking does the method exist/work? Do I need to code like a selectRandomChecker method? 
-    Checker toMove = super.startChecker(board);
-
-    if (toMove != null) {
+    Checker toMove = board.getChecker(rand.nextInt(BOARD_SIZE), rand.nextInt(BOARD_SIZE));
+    while (board.isEmpty(toMove.getX(), toMove.getY())) {
+      toMove = board.getChecker(rand.nextInt(BOARD_SIZE), rand.nextInt(BOARD_SIZE));
+    }
         int startX = toMove.getX();
         int startY = toMove.getY();
         int endX = rand.nextInt(BOARD_SIZE);
         int endY = rand.nextInt(BOARD_SIZE);
-    }
-    //Next I need to add a while loop in above to continue regenerating random values of endX/endY until a valid combination is generated
-    //Also need to of couse assign these values to the checker objects to move it and make the previous position null.
+        while (!board.isEmpty(toMove.getX(), toMove.getY())) {
+          endX = rand.nextInt(BOARD_SIZE);
+          endY = rand.nextInt(BOARD_SIZE);
+        }
+        if (!isValidMove(board, startX, startY, endX, endY)) {
+          return makeMove(board);
+        }
+        d.handleMove(startX, startY, endX, endY);
   }
+    
 
   /**
    * Method for the Computer to determine if a move is   
@@ -44,19 +52,21 @@ public class Computer extends Player {
    *  
    * @param board -- CheckerBoard 
    */
-  private boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
+  public boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
     
     // Check if the start and end positions are within the bounds of the board
     if (startX < 0 || startY < 0 || startX >= BOARD_SIZE || startY >= BOARD_SIZE ||
         endX < 0 || endY < 0 || endX >= BOARD_SIZE || endY >= BOARD_SIZE) {
-        return false; 
+        if ((startX - 1 != endX || startX + 1 != endX) && startY - 1 != endY) {
+          return false;
+        }
     }
 
     // Retrieve the checker at the start position
     Checker startChecker = board.getChecker(startX, startY);
 
     // Check if the start position contains a checker and if it belongs to the computer player
-    if (startChecker == null || startChecker.isHuman()) {
+    if (startChecker == null || super.isHuman()) {
         return false; 
     }
 
@@ -69,6 +79,6 @@ public class Computer extends Player {
     return true;
   }
   
-  
+  */
   
 }
