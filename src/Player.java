@@ -84,4 +84,28 @@ public class Player {
             attackingMove(board, c, board.getChecker(c.getX() - 1, c.getY() + 1));
         }
     }
+
+    /**
+     * public method that initializes the player's move by asking them to pick a checker to move 
+     * 
+     * @param board - CheckerBoard object reference 
+     * @return - Checker that will be moved 
+     */
+    public Checker startChecker(CheckerBoard board) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\nWhich new piece would you like to move? Enter x-coordinate: ");
+        int x = scan.nextInt(); 
+        System.out.print("Enter y-coordinate: ");
+        int y = scan.nextInt(); 
+        Checker toMove = board.getChecker(x, y); 
+        while (board.isEmpty(x, y) || toMove.getColor().equals("white")) {
+            System.out.print("Please reenter valid coordinates and/or pick your own piece. Enter x-coordinate: ");
+            x = scan.nextInt(); 
+            System.out.print("Enter y-coordinate: ");
+            y = scan.nextInt(); 
+            toMove = board.getChecker(x, y);
+        }
+        toMove = board.getChecker(x, y); 
+        return toMove; 
+    }
 }
