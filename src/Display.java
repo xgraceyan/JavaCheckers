@@ -106,8 +106,9 @@ public class Display implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (selected != null) {
+     public void actionPerformed(ActionEvent e) {
+        
+        if (selected != null && !selected.getColor().equals("white")) {
             JButton button = (JButton) e.getSource();
             int x = button.getName().charAt(0);
             int y = button.getName().charAt(2);
