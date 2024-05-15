@@ -11,16 +11,21 @@ public class CheckerDriver {
 		 Scanner sc = new Scanner(System.in); 
 	        System.out.println("Enter player name. (Do not enter in name 'computer' for game to function): ");
 					String nameS = sc.nextLine();
-	        while(nameS.equals("computer"))
+	        while(nameS.equals("computer") || nameS.length < 3)
 	        {
-	            System.out.println("Error. Please do not enter in 'computer' as your name. Please try again and enter your name. ");
+	            System.out.println("Error. Please do not enter in 'computer' as your name. And make sure your name is at least 3 characters long. Please try again and enter your name. ");
 							nameS = sc.nextLine(); 
 	        }
 		System.out.println("Alright, your name is " + nameS + ". ");
-
-	        Human h = new Human(nameS, true); 
+		System.out.println("Enter Favorite Number: ");
+		int favNum = sc.nextInt();
+		String userName = "Checker Player " + nameS.substring(0,3) + favNum; 
+		System.out.println("Your username that will reference you is " + userName);
+	        Human h = new Human(userName, true); 
 	        CheckerBoard c = new CheckerBoard(); 
 	        h.playGame(c); 
 	        h.startChecker(c);
+
+		
 	}
 }
