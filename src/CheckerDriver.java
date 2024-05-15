@@ -2,9 +2,13 @@
  * CheckerDriver to scan in user input and set up game respectively. 
  * Author: Siya Arora
  **/
+package Checkers;
+
 import java.util.Scanner;
 public class CheckerDriver {
 	public static void main(String[] args) {
+		Display d = new Display(); 
+        d.showBoard();
 		 Scanner sc = new Scanner(System.in); 
 	       	String nameS; 
 	        System.out.println("Enter player name. (Do not enter in name 'computer' for game to function): ");
@@ -17,12 +21,8 @@ public class CheckerDriver {
 	        nameS = sc.nextLine(); 
 
 	        Human h = new Human(nameS, true); 
-	        Checkerboard c = new Checkerboard(); 
-	        
-	        h.start();  // Start the player's turn
-	        c.initializeBoard();  // Initialize the checkerboard
-	        c.displayBoard();  // Display the checkerboard
-	        c.playGame();  // Start the game
-
+	        CheckerBoard c = new CheckerBoard(); 
+	        playGame(c); 
+	        startChecker(c);
 }
 }
