@@ -26,7 +26,7 @@ public class Computer extends Player {
    */
   public void makeMove(CheckerBoard board){
     //I saw startChecker in Yansy's Human class but didn't find it elsewhere... just double checking does the method exist/work? Do I need to code like a selectRandomChecker method? 
-    Checker toMove = startChecker(board);
+    Checker toMove = super.startChecker(board);
 
     if (toMove != null) {
         int startX = toMove.getX();
