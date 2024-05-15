@@ -71,6 +71,22 @@ public class CheckerBoard {
     }
 
     /**
+    * Helper method to get the computer's score
+    * @return int - the computer's score
+    **/
+    public int getWhiteScore(){
+        return whiteScore;
+    }
+
+    /**
+    * Helper method to get the player's score
+    * @return int - the player's score
+    **/
+    public int getBlackScore(){
+        return blackScore;
+    }
+
+    /**
      * Move a checker on the board to another spot
      *
      * @param c    - Checker object to move
