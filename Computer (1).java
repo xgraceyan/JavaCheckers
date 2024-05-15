@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Computer extends Player {
   private Random rand;
+  private final int BOARD_SIZE;
   
   /**
    * Constructor that sets Computer class 
@@ -15,6 +16,7 @@ public class Computer extends Player {
   public Computer(boolean turn){
     super("Computer", turn);
     rand = new Random();
+    BOARD_SIZE = 8;
   }
 
   /**
@@ -29,8 +31,8 @@ public class Computer extends Player {
     if (toMove != null) {
         int startX = checker.getX();
         int startY = checker.getY();
-        int endX = rand.nextInt(CheckerBoard.BOARD_SIZE);
-        int endY = rand.nextInt(CheckerBoard.BOARD_SIZE);
+        int endX = rand.nextInt(BOARD_SIZE);
+        int endY = rand.nextInt(BOARD_SIZE);
     }
     //Next I need to add a while loop in above to continue regenerating random values of endX/endY until a valid combination is generated
     //Also need to of couse assign these values to the checker objects to move it and make the previous position null.
@@ -45,8 +47,8 @@ public class Computer extends Player {
   private boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
     
     // Check if the start and end positions are within the bounds of the board
-    if (startX < 0 || startY < 0 || startX >= CheckerBoard.BOARD_SIZE || startY >= CheckerBoard.BOARD_SIZE ||
-        endX < 0 || endY < 0 || endX >= CheckerBoard.BOARD_SIZE || endY >= CheckerBoard.BOARD_SIZE) {
+    if (startX < 0 || startY < 0 || startX >= BOARD_SIZE || startY >= BOARD_SIZE ||
+        endX < 0 || endY < 0 || endX >= BOARD_SIZE || endY >= BOARD_SIZE) {
         return false; 
     }
 
