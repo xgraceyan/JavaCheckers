@@ -12,6 +12,7 @@ public class Display implements ActionListener {
     private ArrayList<JButton> checkerButtons = new ArrayList<>();
     private JFrame f = new JFrame();
     private Checker selected;
+    private boolean turnOver;
 
     public Display() {
         f.setLayout(new GridLayout(8, 8));
@@ -59,6 +60,7 @@ public class Display implements ActionListener {
 
         f.setSize(800, 800);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        turnOver = false;
     }
 
     public void showBoard() {
@@ -105,8 +107,47 @@ public class Display implements ActionListener {
         }
     }
 
-    @Override
-     public void actionPerformed(ActionEvent e) {
+    public void handleMove(int formerX, int formerY, int newX, int newY) {
+        int oldX = formerX;
+        int oldY = formerY;
+        boolean valid = cb.moveChecker(selected, newX, newY);
+        // TODO implement this later
+        if (valid) {
+            JButton checkerButton = buttonList[oldX][oldY];
+            JButton newButton = buttonList[newX][newY];
+
+            if ((newY == oldY + 2 || newY == oldY - 2) && (newX == oldX + 2 || newX == oldX - 2)) {
+                // capture move
+                JButton capturedBtn = null;
+                if (newY == oldY + 2) {
+                    if (newX == oldX + 2) {
+                        capturedBtn = buttonList[oldX + 1][oldY + 1];
+                    } else if (newX == oldX - 2) {
+                        capturedBtn = buttonList[oldX - 1][oldY + 1];
+                    }
+                } else if (newY == oldY - 2) {
+                    if (newX == oldX + 2) {
+                        capturedBtn = buttonList[oldX + 1][oldY - 1];
+                    } else if (newX == oldX - 2) {
+                        capturedBtn = buttonList[oldX - 1][oldY - 1];
+                    }
+                }
+
+                capturedBtn.setIcon(null);
+                capturedBtn.setBackground(newButton.getBackground());
+                checkerButtons.remove(capturedBtn);
+            }
+            checkerButtons.remove(checkerButton);
+            checkerButtons.add(newButton);
+            checkerButton.setBackground(newButton.getBackground());
+            newButton.setIcon(checkerButton.getIcon());
+            checkerButton.setIcon(null);
+
+
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
         
         if (selected != null && !selected.getColor().equals("white")) {
             JButton button = (JButton) e.getSource();
@@ -129,9 +170,26 @@ public class Display implements ActionListener {
                 // select a checker
                 selected = cb.getChecker(cbX, cbY);
                 System.out.println(selected.getColor());
+                turnOver = true;
                 return;
             }
         }
 
     }
+
+    /**
+    * Helper method for status of player's turn
+    * @return boolean - true if it is the computer's turn, false if it is the human's turn
+    **/
+    public boolean getTurn() {
+        return turnOver;
+    }
+
+    /**
+    * sets the status of the player's turn
+    **/
+    public void setTurn(boolean turn) {
+        turnOver = turn;
+    }
+
 }
