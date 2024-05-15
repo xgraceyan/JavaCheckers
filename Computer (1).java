@@ -29,8 +29,8 @@ public class Computer extends Player {
     if (toMove != null) {
         int startX = checker.getX();
         int startY = checker.getY();
-        int endX = random.nextInt(CheckerBoard.BOARD_SIZE);
-        int endY = random.nextInt(CheckerBoard.BOARD_SIZE);
+        int endX = rand.nextInt(CheckerBoard.BOARD_SIZE);
+        int endY = rand.nextInt(CheckerBoard.BOARD_SIZE);
     }
     //Next I need to add a while loop in above to continue regenerating random values of endX/endY until a valid combination is generated
     //Also need to of couse assign these values to the checker objects to move it and make the previous position null.
