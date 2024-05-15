@@ -45,22 +45,17 @@ public class Computer extends Player {
         d.handleMove(startX, startY, endX, endY);
   }
     
-
-  /**
-   * Method for the Computer to determine if a move is   
-   * valid before making it.
-   *  
-   * @param board -- CheckerBoard 
-   */
-  public boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
+public boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
     
     // Check if the start and end positions are within the bounds of the board
-    if (startX < 0 || startY < 0 || startX >= BOARD_SIZE || startY >= BOARD_SIZE ||
-        endX < 0 || endY < 0 || endX >= BOARD_SIZE || endY >= BOARD_SIZE) {
-        if ((startX - 1 != endX || startX + 1 != endX) && startY - 1 != endY) {
-          return false;
+    if ((startX - 1 != endX || startX + 1 != endX) && startY - 1 != endY) {
+        if ((startX + 2 == endX && board.getChecker(startX + 1, startY + 1).getColor().equals("black")) || (startX - 2 == endX && board.getChecker(startX - 1, startY + 1).getColor().equals("black")) && startY + 2 == endY) {
+          return true;
         }
+        else return false;
     }
+    return true;
+  }
 
     // Retrieve the checker at the start position
     Checker startChecker = board.getChecker(startX, startY);
