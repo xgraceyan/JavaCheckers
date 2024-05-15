@@ -23,9 +23,6 @@ public class CheckerDriver {
 		System.out.println("Your username that will reference you is " + userName);
 	        Human h = new Human(userName, true); 
 	        CheckerBoard c = new CheckerBoard(); 
-	        h.playGame(c); 
-	        h.startChecker(c);
-
 		
 	}
 }
