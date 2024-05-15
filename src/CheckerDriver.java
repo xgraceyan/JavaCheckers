@@ -30,7 +30,7 @@ public class CheckerDriver {
 						System.out.println("It is " + userName + "'s turn. ");
 						if (d.getTurn()) {
 							System.out.println("It is the computer's turn. Wait for the computer to make a move before playing.");
-							//here's where the method for the computer moving would be, i'll work on it soon!
+							makeMove();
 						}
 						
 					}
