@@ -2,7 +2,6 @@
  * CheckerDriver to scan in user input and set up game respectively. 
  * Author: Siya Arora
  **/
-package Checkers;
 
 import java.util.Scanner;
 public class CheckerDriver {
