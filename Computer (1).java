@@ -29,8 +29,8 @@ public class Computer extends Player {
     Checker toMove = startChecker(board);
 
     if (toMove != null) {
-        int startX = checker.getX();
-        int startY = checker.getY();
+        int startX = toMove.getX();
+        int startY = toMove.getY();
         int endX = rand.nextInt(BOARD_SIZE);
         int endY = rand.nextInt(BOARD_SIZE);
     }
