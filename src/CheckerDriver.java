@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class CheckerDriver {
 	public static void main(String[] args) {
 		Display d = new Display(); 
-        d.showBoard();
+        	d.showBoard();
 		 Scanner sc = new Scanner(System.in); 
 	       	String nameS; 
 	        System.out.println("Enter player name. (Do not enter in name 'computer' for game to function): ");
