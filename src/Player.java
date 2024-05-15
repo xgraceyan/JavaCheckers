@@ -1,4 +1,3 @@
-package Checkers;
 /**
  * Player class that will be extended for Human and Computer classes
  * Author: Leka Ekambaram
