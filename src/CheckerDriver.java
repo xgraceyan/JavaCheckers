@@ -22,7 +22,7 @@ public class CheckerDriver {
 
 	        Human h = new Human(nameS, true); 
 	        CheckerBoard c = new CheckerBoard(); 
-	        playGame(c); 
-	        startChecker(c);
+	        h.playGame(c); 
+	        h.startChecker(c);
 }
 }
