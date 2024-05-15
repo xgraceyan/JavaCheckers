@@ -34,7 +34,7 @@ public class Computer extends Player {
     }
     //Next I need to add a while loop in above to continue regenerating random values of endX/endY until a valid combination is generated
     //Also need to of couse assign these values to the checker objects to move it and make the previous position null.
-    
+  }
 
   /**
    * Method for the Computer to determine if a move is   
