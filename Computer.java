@@ -79,23 +79,12 @@ public class Computer extends Player {
           System.out.println("Indices: " + x + " " + y + " " + indices[2] + " " + indices[3]);
           return indices;
     }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    public int getStartY() {
-        return startY;
-    }
-
-    public int getNewX() {
-        return newX;
-    }
-
-    public int getNewY() {
-        return newY;
-    }
-
+  
+  /**
+    * Method that returns whether the given indices result in a valid move 
+    *
+    * @return boolean - true if it is a valid move and false otherwise   
+    */ 
   public boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
 
     // Check if the start and end positions are within the bounds of the board
