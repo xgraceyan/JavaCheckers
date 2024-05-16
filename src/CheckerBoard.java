@@ -104,7 +104,6 @@ public class CheckerBoard {
         ;
 
         if (!isEmpty(newX, newY)) {
-            System.out.println("exists");
             return false;
         }
         ;
