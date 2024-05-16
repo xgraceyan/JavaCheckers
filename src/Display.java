@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+* Display class to manage the actual GUI for checkers 
+* Author: Grace Yan 
+**/
 public class Display implements ActionListener {
     private CheckerBoard cb = new CheckerBoard();
     private JButton[][] buttonList = new JButton[8][8];
@@ -15,6 +19,10 @@ public class Display implements ActionListener {
     private boolean turnOver;
     private Computer comp; 
 
+    /**
+     * Constructor for Display class 
+     * Initializes the JFrame and JButtons 2D array (responsible for our checkerboard) 
+     **/
     public Display() {
         f.setLayout(new GridLayout(8, 8));
         String identity;
@@ -64,10 +72,16 @@ public class Display implements ActionListener {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Method that makes the JFrame visible 
+     **/
     public void showBoard() {
         f.setVisible(true);
     }
 
+    /**
+     * Method that handles the human player's checker move on the display 
+     **/
     public boolean handleMove(Checker c, int oldX, int oldY, int newX, int newY) {
         boolean valid = true;
         if (c != null) {
@@ -110,10 +124,16 @@ public class Display implements ActionListener {
         return valid;
     }
 
+    /**
+     * Overloaded method that handles the computer's checker move on the display 
+     **/
     public void handleMoveComp(int formerX, int formerY, int newX, int newY) {
          handleMove(null, formerX, formerY, newX, newY);
     }
 
+    /**
+     * Performs actions when checker is selected by player
+     */
     public void actionPerformed(ActionEvent e) {
 
         if (selected != null && !selected.getColor().equals("white")) {
