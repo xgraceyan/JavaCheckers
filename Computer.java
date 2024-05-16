@@ -7,8 +7,11 @@ import java.util.Random;
 public class Computer extends Player {
   private Random rand;
   private final int BOARD_SIZE;
-  private Display d;
-  
+  private int startX;
+  private int startY;
+  private int newX;
+  private int newY;
+
   /**
    * Constructor that sets Computer class 
    *  
@@ -18,7 +21,6 @@ public class Computer extends Player {
     super("Computer", turn);
     rand = new Random();
     BOARD_SIZE = 8;
-    d = new Display();
   }
 
    /**
@@ -27,40 +29,71 @@ public class Computer extends Player {
        * @param board The checkerboard.
        * @return The selected checker, or null if no valid checker is found.
       */
-      private Checker selectRandomChecker(CheckerBoard board) {
-          int x = rand.nextInt(8);
-          int y = rand.nextInt(8);
-          Checker c = null;
+    private Checker selectRandomChecker(CheckerBoard board) {
+       int x = rand.nextInt(8);
+       int y = rand.nextInt(8);
+       Checker c = board.getChecker(x, y);
 
-          while( c == null || !c.getColor().equals("white") || !board.moveChecker(c, x, y) || board.isEmpty(x, y)){
-              x = rand.nextInt(8);
-              y = rand.nextInt(8);
-              c = board.getChecker(x, y);
-      }
-          return c; 
-  }
+       while(c == null || board.isEmpty(x, y) || !c.getColor().equals("white")){
+            x = rand.nextInt(8);
+            y = rand.nextInt(8);
+            c = board.getChecker(x, y);
+       }
+       return c; 
+     }
 
     /**
      * Method for the Computer to make a move 
      *  
      * @param board -- CheckerBoard 
      */
-      public void makeRandomMove(CheckerBoard board){
-
-          Checker toMove = selectRandomChecker(board);
-          while (toMove == null) {
-            toMove = selectRandomChecker(board);
+      public int[] makeRandomMove(CheckerBoard board){
+    	  System.out.println("test");
+    	  int x = rand.nextInt(8);
+          int y = rand.nextInt(8);
+          Checker toMove = board.getChecker(x, y);
+          boolean found = false;
+          
+          while (!found) {
+        	  while(toMove == null || board.isEmpty(x, y) || !toMove.getColor().equals("white")){
+        		  x = rand.nextInt(8);
+        		  y = rand.nextInt(8);
+        		  toMove = board.getChecker(x, y);
+        	  }
+        	  System.out.println(x + " " + y + toMove.getColor() + " " + toMove.getX() + " " + toMove.getY());
+        	  if (board.moveChecker(toMove, x - 1, y + 1) ||
+        		board.moveChecker(toMove, x + 1, y + 1) ||
+        	  	board.moveChecker(toMove, x - 2, y + 2) ||
+        	  	board.moveChecker(toMove, x + 2, y + 2)) {
+        		found = true;
+        	  } else {
+        		  toMove = null;
+        	  }
           }
-          int startX = toMove.getX();
-          int startY = toMove.getY();
-          int newX = rand.nextInt(8);
-          int newY = rand.nextInt(8);
+    	  int[] indices = new int[4];
 
-          while(!board.moveChecker(toMove, newX, newY)){
-              newX = rand.nextInt(8);
-              newY = rand.nextInt(8);
-          }
-          d.handleMove(toMove.getX(), toMove.getY(), newX, newY);
+          indices[0] = x;
+          indices[1] = y;
+          indices[2] = toMove.getX();
+          indices[3] = toMove.getY();
+          System.out.println("Indices: " + x + " " + y + " " + indices[2] + " " + indices[3]);
+          return indices;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getNewX() {
+        return newX;
+    }
+
+    public int getNewY() {
+        return newY;
     }
 
   public boolean isValidMove(CheckerBoard board, int startX, int startY, int endX, int endY) {
@@ -89,11 +122,5 @@ public class Computer extends Player {
     //idk guys any other checks I need to add here?
     return true;
   }
-  public void playGame(CheckerBoard c, Display d) {
-      if (d.getTurn()) {
-          System.out.println("It is the computer's turn. Wait for the computer to make a move before playing.");
-          makeRandomMove(c);
-      }
-  }
-  
+
 }
