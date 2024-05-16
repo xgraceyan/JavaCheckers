@@ -18,13 +18,13 @@ public class Player {
         name = playerName; //player's name inputted (if computer, name will be "computer")
         isOnTurn = turn;
     }
-    
+
     /**
      * Method to get name 
      * @return name 
      */
     public String getName() {
-    	return name; 
+        return name; 
     }
 
     /**
@@ -35,14 +35,14 @@ public class Player {
     public boolean isHuman() {
         return !name.equals("computer");
     }
-    
+
     /**
      * Method that returns whether it is the player's turn 
      * 
      * @return true if it is the player's turn and false otherwise 
      */
     public boolean getTurn() {
-    	return isOnTurn;
+        return isOnTurn;
     }
 
 }
