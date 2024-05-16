@@ -38,6 +38,10 @@ public class CheckerBoard {
         }
     }
 
+    /**
+     * getter method for checkerboard
+     * @return
+     */
     public ArrayList<Checker> getCheckerList() {
         return checkers;
     }
