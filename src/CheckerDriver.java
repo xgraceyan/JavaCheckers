@@ -24,15 +24,12 @@ public class CheckerDriver {
 					Human h = new Human(userName, true); 
 					CheckerBoard c = new CheckerBoard(); 
 					Computer comp = new Computer(false);
-					d.setTurn(true);
-					while ((c.getWhiteScore() != 12 || c.getBlackScore() != 12) && d.getTurn()) {
-						d.setTurn(false);
-						System.out.println("It is " + userName + "'s turn. ");
-						if (d.getTurn()) {
-							System.out.println("It is the computer's turn. Wait for the computer to make a move before playing.");
-							comp.makeMove(c);
-						}
-						
+					while (c.getWhiteScore() != 12 && c.getBlackScore() != 12) {
+						h.playGame(c, d, comp, userName);
+						System.out.print("..");
+						comp.playGame(c, d);
 					}
+						System.out.print("hi");
+						
 	}
 }
