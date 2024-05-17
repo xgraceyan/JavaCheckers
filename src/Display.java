@@ -21,12 +21,17 @@ public class Display implements ActionListener {
     private JLabel welcome;
     private JTextField prompt;
     private JTextField prompt2;
-    private JTextField userInput = new JTextField(15);
+    private JTextField userInput;
+    private JLabel humanScore;
+    private JLabel compScore;
     private Checker selected;
     private boolean turnOver;
     private Computer comp;
     private boolean nameEntered;
+    private boolean started;
+    private boolean reset;
     private String name;
+    private Human h;
 
     /**
      * Constructor for Display class
@@ -35,15 +40,22 @@ public class Display implements ActionListener {
     public Display() {
         String identity;
         nameEntered = false;
+        started = false;
+        reset = false;
         all.setLayout(new BoxLayout(all, BoxLayout.X_AXIS));
         p.setLayout(new GridLayout(8, 8));
         p2.setLayout(new BoxLayout(p2, BoxLayout.PAGE_AXIS));
 
         prompt = new JTextField("Enter player name below.");
         prompt2 = new JTextField("For game to function, do not enter \"computer\".");
+        userInput = new JTextField(15);
         prompt.setBounds(50, 50, 200, 100);
         prompt.setEditable(false);
         prompt2.setEditable(false);
+        humanScore = new JLabel();
+        humanScore.setVisible(false);
+        compScore = new JLabel();
+        compScore.setVisible(false);
 
         JPanel space = new JPanel();
         space.setBackground(new Color(238, 238, 238));
@@ -54,9 +66,9 @@ public class Display implements ActionListener {
         userInput.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
-                if (input.length() < 3) {
+                if (input.length() < 3 && !nameEntered) {
                     prompt2.setText("Please make sure your player name is at least three characters long.");
-                } else if (input.equalsIgnoreCase("computer")) {
+                } else if (input.equalsIgnoreCase("computer") && !nameEntered) {
                     prompt2.setText("Error. Please do not enter in 'computer' as your name.");
                 } else if (!nameEntered) {
                     name = input;
@@ -65,11 +77,19 @@ public class Display implements ActionListener {
                     prompt2.setVisible(false);
                     nameEntered = true;
                 } else {
-                    String username = "HumanPlayer_" + name.substring(0, 3) + Integer.parseInt(input);
-                    prompt2.setVisible(true);
-                    prompt.setText("The username that will reference you will be: ");
-                    prompt2.setText(username);
-                    userInput.setText("");
+                    int favNum;
+                    try {
+                        favNum = Integer.parseInt(input);
+                        String username = "HumanPlayer_" + name.substring(0, 3) + favNum;
+                        prompt2.setVisible(true);
+                        prompt.setText("Your username is: " + username);
+                        prompt2.setText("Start the game by selecting a checker piece to move.");
+                        userInput.setText("Next, click the spot you want the checker to move to.");
+                        h = new Human(username, true);
+                    } catch (Exception ex) {
+                        userInput.setText("");
+                        prompt.setText("Please enter a valid number.");
+                    }
                 }
             }
         });
@@ -121,29 +141,29 @@ public class Display implements ActionListener {
         p2.add(prompt);
         p2.add(prompt2);
         p2.add(userInput);
+        p2.add(humanScore);
+        p2.add(compScore);
         p2.add(space);
-        /* p2.add(welcome, BorderLayout.PAGE_START);
-        p2.add(prompt, BorderLayout.CENTER);
-        p2.add(userInput, BorderLayout.CENTER); */
         all.add(p);
         all.add(p2);
         f.add(all);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void setPrompt(String str) {
-        prompt.setText(str);
-    }
-
-    /**
-     * Method that makes the JFrame visible
-     **/
-    public void showBoard() {
-        f.setVisible(true);
-    }
-
     public boolean getTurn() {
         return turnOver;
+    }
+
+    public CheckerBoard getCheckerBoard() {
+        return cb;
+    }
+
+    public Computer getComp() {
+        return comp;
+    }
+
+    public Human getHuman() {
+        return h;
     }
 
     /**
@@ -154,8 +174,6 @@ public class Display implements ActionListener {
         if (c != null) {
             valid = cb.moveChecker(c, newX, newY);
         }
-        // System.out.println(newX + " " + newY);
-        // TODO implement this later
         if (valid) {
             //System.out.println(newX + " " + newY);
             JButton checkerButton = buttonList[oldX][oldY];
@@ -192,6 +210,13 @@ public class Display implements ActionListener {
     }
 
     /**
+     * Method that makes the JFrame visible
+     **/
+    public void showBoard() {
+        f.setVisible(true);
+    }
+
+    /**
      * Overloaded method that handles the computer's checker move on the display
      **/
     public void handleMoveComp(int formerX, int formerY, int newX, int newY) {
@@ -202,15 +227,39 @@ public class Display implements ActionListener {
      * Performs actions when checker is selected by player
      */
     public void actionPerformed(ActionEvent e) {
-
         if (selected != null && !selected.getColor().equals("white")) {
+            if (!started) {
+                prompt2.setText("*The game will continue until one player reaches a score of 12.");
+                userInput.setText("");
+            }
             JButton button = (JButton) e.getSource();
             int x = button.getName().charAt(0);
             int y = button.getName().charAt(2);
             if (handleMove(selected, selected.getX(), selected.getY(), x, y)) {
+                userInput.setText("");
                 selected = null;
                 int[] indices = comp.makeRandomMove(cb);
                 handleMoveComp(indices[0], indices[1], indices[2], indices[3]);
+                humanScore.setText("Your score is: " + cb.getBlackScore());
+                humanScore.setVisible(true);
+                compScore.setText("Computer's score is: " + cb.getWhiteScore());
+                compScore.setVisible(true);
+            } else {
+                userInput.setText("Sorry, that move wasn't valid. Try again!");
+                JButton srcButton = (JButton) e.getSource();
+                int srcX = srcButton.getName().charAt(0);
+                int srcY = srcButton.getName().charAt(2);
+
+                for (JButton checkerButton : checkerButtons) {
+                    int cbX = checkerButton.getName().charAt(0);
+                    int cbY = checkerButton.getName().charAt(2);
+                    if (cbX == srcX && cbY == srcY) {
+                        // select a checker
+                        selected = cb.getChecker(cbX, cbY);
+                        userInput.setText("");
+                        return;
+                    }
+                }
             }
             return;
         }
