@@ -29,7 +29,7 @@ public class Display implements ActionListener {
     private Checker selected;
     private Computer comp;
     private String name;
-    private Human h;
+    private Player h;
     private boolean turnOver;
     private boolean nameEntered;
     private boolean started;

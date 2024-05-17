@@ -26,25 +26,6 @@ public class Computer extends Player {
     }
 
     /**
-     * Selects a random white checker piece from the checkerboard.
-     *
-     * @param board The checkerboard.
-     * @return The selected checker, or null if no valid checker is found.
-     */
-    private Checker selectRandomChecker(CheckerBoard board) {
-        int x = rand.nextInt(8);
-        int y = rand.nextInt(8);
-        Checker c = board.getChecker(x, y);
-
-        while (c == null || board.isEmpty(x, y) || !c.getColor().equals("white")) {
-            x = rand.nextInt(8);
-            y = rand.nextInt(8);
-            c = board.getChecker(x, y);
-        }
-        return c;
-    }
-
-    /**
      * Method for the Computer to make a move
      *
      * @param board -- CheckerBoard
