@@ -26,6 +26,7 @@ public class Display implements ActionListener {
     private boolean turnOver;
     private Computer comp;
     private boolean nameEntered;
+    private String name;
 
     /**
      * Constructor for Display class
@@ -53,7 +54,6 @@ public class Display implements ActionListener {
         userInput.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String input = userInput.getText();
-                String name = "";
                 if (input.length() < 3) {
                     prompt2.setText("Please make sure your player name is at least three characters long.");
                 } else if (input.equalsIgnoreCase("computer")) {
@@ -66,7 +66,9 @@ public class Display implements ActionListener {
                     nameEntered = true;
                 } else {
                     String username = "HumanPlayer_" + name.substring(0, 3) + Integer.parseInt(input);
-                    prompt.setText("The username that will reference you will be: " + username);
+                    prompt2.setVisible(true);
+                    prompt.setText("The username that will reference you will be: ");
+                    prompt2.setText(username);
                     userInput.setText("");
                 }
             }
