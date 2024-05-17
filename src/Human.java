@@ -17,10 +17,9 @@ public class Human extends Player {
 		super(name, turn);
 	}
 
-	public void playGame(CheckerBoard c, Display d, Computer comp, String userName) {
-			if ((c.getWhiteScore() != 12 || c.getBlackScore() != 12) && !d.getTurn()) {
-					System.out.println("It is " + userName + "'s turn. ");
-			}
+	public void win() {
+		super.win();
+		System.out.print(" " + super.getName() + " won!");
 	}
 	
 }
