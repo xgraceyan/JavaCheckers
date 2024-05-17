@@ -45,7 +45,7 @@ public class Display implements ActionListener {
         started = false;
         reset = false;
         kingBlack = new ImageIcon("resources/black_king1.png");
-        kingWhite = new ImageIcon("resources/white_king1.png");
+        kingWhite = new ImageIcon("resources/white_king3.png");
         all.setLayout(new BoxLayout(all, BoxLayout.X_AXIS));
         p.setLayout(new GridLayout(8, 8));
         p2.setLayout(new BoxLayout(p2, BoxLayout.PAGE_AXIS));
