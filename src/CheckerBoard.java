@@ -39,7 +39,8 @@ public class CheckerBoard {
     }
 
     /**
-     * getter method for checkerboard
+     * Getter method for checkerboard
+     *
      * @return
      */
     public ArrayList<Checker> getCheckerList() {
@@ -55,7 +56,8 @@ public class CheckerBoard {
      **/
     public Checker getChecker(int x, int y) {
         for (Checker checker : checkers) {
-            if (checker.getX() == x && checker.getY() == y) return checker;
+            if (checker.getX() == x && checker.getY() == y)
+                return checker;
         }
         return null;
     }
@@ -75,18 +77,20 @@ public class CheckerBoard {
     }
 
     /**
-    * Helper method to get the computer's score
-    * @return int - the computer's score
-    **/
-    public int getWhiteScore(){
+     * Helper method to get the computer's score
+     *
+     * @return int - the computer's score
+     **/
+    public int getWhiteScore() {
         return whiteScore;
     }
 
     /**
-    * Helper method to get the player's score
-    * @return int - the player's score
-    **/
-    public int getBlackScore(){
+     * Helper method to get the player's score
+     *
+     * @return int - the player's score
+     **/
+    public int getBlackScore() {
         return blackScore;
     }
 

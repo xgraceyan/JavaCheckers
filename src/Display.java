@@ -21,17 +21,19 @@ public class Display implements ActionListener {
     private JLabel welcome;
     private JTextField prompt;
     private JTextField prompt2;
-    private JTextField userInput;
+    private static JTextField userInput;
+    private Icon kingBlack;
+    private Icon kingWhite;
     private JLabel humanScore;
     private JLabel compScore;
     private Checker selected;
-    private boolean turnOver;
     private Computer comp;
+    private String name;
+    private Human h;
+    private boolean turnOver;
     private boolean nameEntered;
     private boolean started;
     private boolean reset;
-    private String name;
-    private Human h;
 
     /**
      * Constructor for Display class
@@ -42,6 +44,8 @@ public class Display implements ActionListener {
         nameEntered = false;
         started = false;
         reset = false;
+        kingBlack = new ImageIcon("resources/black_king1.png");
+        kingWhite = new ImageIcon("resources/white_king1.png");
         all.setLayout(new BoxLayout(all, BoxLayout.X_AXIS));
         p.setLayout(new GridLayout(8, 8));
         p2.setLayout(new BoxLayout(p2, BoxLayout.PAGE_AXIS));
@@ -150,24 +154,28 @@ public class Display implements ActionListener {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Method that returns the boolean getTurn
+     *
+     * @return boolean getTurn - true if it is computer's turn, false otherwise
+     */
     public boolean getTurn() {
         return turnOver;
     }
 
-    public CheckerBoard getCheckerBoard() {
-        return cb;
-    }
-
-    public Computer getComp() {
-        return comp;
-    }
-
-    public Human getHuman() {
-        return h;
+    /**
+     * Method that returns the JTextField userInput
+     *
+     * @return userInput JTextField
+     */
+    public static JTextField getUserInput() {
+        return userInput;
     }
 
     /**
      * Method that handles the human player's checker move on the display
+     *
+     * @return boolean - true if move has been handled successfully, false otherwise
      **/
     public boolean handleMove(Checker c, int oldX, int oldY, int newX, int newY) {
         boolean valid = true;
@@ -217,6 +225,42 @@ public class Display implements ActionListener {
     }
 
     /**
+     * Method that changes the icon of the Checker
+     *
+     * @param c - Checker that is a King checker and must be updated
+     */
+    public void changeIcon(Checker c) {
+        String color = c.getColor();
+        int x = c.getX();
+        int y = c.getY();
+        if (color.equals("white")) {
+            buttonList[x][y].setIcon(kingWhite);
+        } else if (color.equals("black")) {
+            buttonList[x][y].setIcon(kingBlack);
+        }
+    }
+
+    /**
+     * Method that changes the text of the userInput JTextField
+     *
+     * @param str - String that the userInput will be changed to
+     */
+    public static void setUserInput(String str) {
+        userInput.setText(str);
+    }
+
+    /**
+     * Method that checks to see if the checkerboard contains any checkers that are new kings; updates their icon accordingly
+     */
+    public void checkForKing() {
+        for (Checker checker : cb.getCheckerList()) {
+            if (checker.isKing()) {
+                changeIcon(checker);
+            }
+        }
+    }
+
+    /**
      * Overloaded method that handles the computer's checker move on the display
      **/
     public void handleMoveComp(int formerX, int formerY, int newX, int newY) {
@@ -229,7 +273,7 @@ public class Display implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (selected != null && !selected.getColor().equals("white")) {
             if (!started) {
-                prompt2.setText("*The game will continue until one player reaches a score of 12.");
+                prompt2.setText("*Game ends when one player reaches a score of 12 or computer forfeits.");
                 userInput.setText("");
             }
             JButton button = (JButton) e.getSource();
@@ -244,6 +288,12 @@ public class Display implements ActionListener {
                 humanScore.setVisible(true);
                 compScore.setText("Computer's score is: " + cb.getWhiteScore());
                 compScore.setVisible(true);
+                checkForKing();
+                if (cb.getWhiteScore() == 12) {
+                    comp.win();
+                } else if (cb.getBlackScore() == 12) {
+                    h.win();
+                }
             } else {
                 userInput.setText("Sorry, that move wasn't valid. Try again!");
                 JButton srcButton = (JButton) e.getSource();

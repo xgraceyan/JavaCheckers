@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 /**
  * Player class that will be extended for Human and Computer classes
  * Author: Leka Ekambaram
@@ -20,11 +21,12 @@ public class Player {
     }
 
     /**
-     * Method to get name 
-     * @return name 
+     * Method to get name
+     *
+     * @return name
      */
     public String getName() {
-        return name; 
+        return name;
     }
 
     /**
@@ -37,12 +39,19 @@ public class Player {
     }
 
     /**
-     * Method that returns whether it is the player's turn 
-     * 
-     * @return true if it is the player's turn and false otherwise 
+     * Method that returns whether it is the player's turn
+     *
+     * @return true if it is the player's turn and false otherwise
      */
     public boolean getTurn() {
         return isOnTurn;
+    }
+
+    /**
+     * Method that changes userInput to announce who won
+     */
+    public void win() {
+        Display.setUserInput("Game over!");
     }
 
 }
